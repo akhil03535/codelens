@@ -58,5 +58,5 @@ httpx==0.25.0
 faker==22.0.0
 
 # Development server reload
-watchfiles==0.21.0
+#watchfiles==0.21.0
 
