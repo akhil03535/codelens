@@ -1,0 +1,14 @@
+.env
+.env.*
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+.env.example
+logs/
+backups/
+uploads/
+repositories/
+chroma_db/
