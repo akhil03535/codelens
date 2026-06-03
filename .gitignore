@@ -1,0 +1,43 @@
+# Dependencies and build outputs
+node_modules/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+backend/.venv/
+backend/venv/
+backend/env/
+
+# Frontend / backend local environment files
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Generated runtime data
+backend/chroma_db/
+backend/repositories/
+backend/uploads/
+backend/logs/
+backend/backups/
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
