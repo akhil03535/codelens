@@ -17,7 +17,7 @@ cryptography==42.0.2
 
 # AI & ML
 sentence-transformers==3.3.1
-chromadb==0.5.23
+chromadb==0.4.24
 numpy==1.26.4
 
 # HTTP & API
@@ -54,7 +54,6 @@ ruff==0.2.1
 mypy==1.8.0
 
 # Testing
-httpx==0.25.0
 faker==22.0.0
 
 # Development server reload
