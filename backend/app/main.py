@@ -29,15 +29,7 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.warning(f"Database initialization failed: {e}. Continuing without database.")
     
-    try:
-        # Warm up embedding model
-        from app.rag.embeddings import get_model
-        get_model()
-        logger.info("Embedding model loaded")
-    except Exception as e:
-        logger.warning(f"Embedding model warm-up failed: {e}. Continuing without pre-loaded model.")
-    
-    logger.info("Startup complete")
+    logger.info("Startup complete - embedding model will load on first request")
     yield
     try:
         from app.graph.neo4j_service import close_driver
