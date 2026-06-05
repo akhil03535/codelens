@@ -23,14 +23,27 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("Starting CodeLens AI API")
-    await create_tables()
-    # Warm up embedding model
-    from app.rag.embeddings import get_model
-    get_model()
+    try:
+        await create_tables()
+        logger.info("Database tables initialized")
+    except Exception as e:
+        logger.warning(f"Database initialization failed: {e}. Continuing without database.")
+    
+    try:
+        # Warm up embedding model
+        from app.rag.embeddings import get_model
+        get_model()
+        logger.info("Embedding model loaded")
+    except Exception as e:
+        logger.warning(f"Embedding model warm-up failed: {e}. Continuing without pre-loaded model.")
+    
     logger.info("Startup complete")
     yield
-    from app.graph.neo4j_service import close_driver
-    close_driver()
+    try:
+        from app.graph.neo4j_service import close_driver
+        close_driver()
+    except Exception:
+        pass
     logger.info("Shutdown complete")
 
 
