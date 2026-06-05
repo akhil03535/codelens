@@ -10,7 +10,7 @@ from app.parsers.code_parser import ParsedChunk, add_context_header
 
 logger = logging.getLogger(__name__)
 
-_client: chromadb.PersistentClient | None = None
+_client: Optional[chromadb.PersistentClient] = None
 
 
 def get_client() -> chromadb.PersistentClient:
