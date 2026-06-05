@@ -132,6 +132,7 @@ class Settings(BaseSettings):
         "http://localhost:5173",
         "http://localhost:3000",
         "http://localhost:8000",
+        "https://codelens-v1cn.vercel.app",
         "https://codelens-ai.vercel.app",
         "https://www.codelens-ai.app",
     ]
