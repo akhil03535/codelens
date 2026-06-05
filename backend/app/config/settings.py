@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import List, Optional
+import os
 from pydantic import field_validator, ConfigDict
 from pydantic_settings import BaseSettings
 
@@ -129,14 +130,7 @@ class Settings(BaseSettings):
     # ============================================================
     # CORS & SECURITY
     # ============================================================
-    CORS_ORIGINS: List[str] = [
-        "http://localhost:5173",
-        "http://localhost:3000",
-        "http://localhost:8000",
-        "https://codelens-v1cn.vercel.app",
-        "https://codelens-ai.vercel.app",
-        "https://www.codelens-ai.app",
-    ]
+    CORS_ORIGINS: Optional[str] = None  # Set from env or use default in model_post_init
     CORS_ALLOW_CREDENTIALS: bool = True
     CORS_ALLOW_METHODS: List[str] = ["*"]
     CORS_ALLOW_HEADERS: List[str] = ["*"]
@@ -175,16 +169,6 @@ class Settings(BaseSettings):
     CACHE_MAX_SIZE: int = 1000
     ENABLE_RESPONSE_COMPRESSION: bool = True
 
-    @field_validator("CORS_ORIGINS", mode="before")
-    @classmethod
-    def parse_cors_origins(cls, v):
-        """Parse CORS_ORIGINS from comma-separated string or list"""
-        if isinstance(v, str):
-            return [origin.strip() for origin in v.split(",") if origin.strip()]
-        if isinstance(v, list):
-            return v
-        return ["http://localhost:3000"]
-
     model_config = ConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
@@ -192,7 +176,24 @@ class Settings(BaseSettings):
     )
 
     def model_post_init(self, __context):
-        """Create necessary directories on startup"""
+        """Create necessary directories on startup and parse CORS_ORIGINS"""
+        # Parse CORS_ORIGINS from environment or use defaults
+        if self.CORS_ORIGINS:
+            # If it's a string, split by comma
+            if isinstance(self.CORS_ORIGINS, str):
+                self.CORS_ORIGINS = [origin.strip() for origin in self.CORS_ORIGINS.split(",") if origin.strip()]
+        else:
+            # Use default origins
+            self.CORS_ORIGINS = [
+                "http://localhost:5173",
+                "http://localhost:3000",
+                "http://localhost:8000",
+                "https://codelens-v1cn.vercel.app",
+                "https://codelens-ai.vercel.app",
+                "https://www.codelens-ai.app",
+            ]
+        
+        # Create necessary directories on startup
         for path in [
             self.REPOSITORIES_PATH,
             self.CHROMA_DB_PATH,
