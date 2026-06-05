@@ -25,11 +25,11 @@ const STATUS_PROGRESS: Record<string, number> = {
 };
 
 const getProcessingSteps = (status: string) => [
-  { name: "Upload & Verify", status: (["cloning", "parsing", "embedding", "graphing", "ready"].includes(status) ? "complete" : status === "pending" ? "active" : "pending") },
-  { name: "Clone Repository", status: (["parsing", "embedding", "graphing", "ready"].includes(status) ? "complete" : status === "cloning" ? "active" : "pending") },
-  { name: "Parse Code", status: (["embedding", "graphing", "ready"].includes(status) ? "complete" : status === "parsing" ? "active" : "pending") },
-  { name: "Generate Embeddings", status: (["graphing", "ready"].includes(status) ? "complete" : status === "embedding" ? "active" : "pending") },
-  { name: "Build Dependency Graph", status: (status === "ready" ? "complete" : status === "graphing" ? "active" : "pending") },
+  { name: "Upload & Verify", status: (["cloning", "parsing", "embedding", "graphing", "ready"].includes(status) ? "complete" as const : status === "pending" ? "active" as const : status === "failed" ? "error" as const : "pending" as const) },
+  { name: "Clone Repository", status: (["parsing", "embedding", "graphing", "ready"].includes(status) ? "complete" as const : status === "cloning" ? "active" as const : status === "failed" ? "error" as const : "pending" as const) },
+  { name: "Parse Code", status: (["embedding", "graphing", "ready"].includes(status) ? "complete" as const : status === "parsing" ? "active" as const : status === "failed" ? "error" as const : "pending" as const) },
+  { name: "Generate Embeddings", status: (["graphing", "ready"].includes(status) ? "complete" as const : status === "embedding" ? "active" as const : status === "failed" ? "error" as const : "pending" as const) },
+  { name: "Build Dependency Graph", status: (status === "ready" ? "complete" as const : status === "graphing" ? "active" as const : status === "failed" ? "error" as const : "pending" as const) },
 ];
 
 export default function Dashboard() {
