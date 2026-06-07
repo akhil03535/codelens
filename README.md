@@ -202,13 +202,15 @@ When disabled (default), dependency graphs are built from the PostgreSQL `reposi
 3. Build: `pip install -r requirements.txt`
 4. Start: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
 5. Add all `.env` values as environment variables
+6. Set `CORS_ORIGINS` to include `https://codelens-v1cn.vercel.app` and any other deployed frontend domains
+7. Make sure the Render service uses Python `3.11.9` if you are deploying as a Python service; Python `3.14` will try to build `pydantic-core` from source and fail on Render
 
 ### Frontend → Vercel
 
 1. Import repo on [Vercel](https://vercel.com)
 2. Set root to `frontend/`
 3. Add env var: `VITE_API_BASE_URL=https://your-backend.onrender.com`
-4. The client automatically appends `/api/v1` for production requests
+4. Use the backend root URL only; the client automatically appends `/api/v1` for production requests
 
 ### Database → Supabase
 
